@@ -1,3 +1,4 @@
 # ead_having_fun
 
-teste git remote 3
+teste git remote 6
+teste
