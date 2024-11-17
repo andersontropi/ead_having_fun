@@ -1,0 +1,140 @@
+{% extends 'base.html' %} {% load static %} {% block titulo %} HomeAulas
+Havingfun {% endblock %} {% block head %}
+<style>
+  $itemGrow: 1.2;
+  $duration: 250ms;
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background-color: #000;
+  }
+
+  h1 {
+    font-family: Arial;
+    color: red;
+    text-align: center;
+  }
+
+  .wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 100%);
+    overflow: hidden;
+    scroll-behavior: smooth;
+
+    section {
+      width: 100%;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, auto);
+      margin: 20px 0;
+
+      .item {
+        padding: 0 2px;
+        transition: $duration all;
+
+        &:hover {
+          margin: 0 40px;
+          transform: scale(1.2);
+        }
+      }
+
+      a {
+        position: absolute;
+        color: #fff;
+        text-decoration: none;
+        font-size: 6em;
+        background: rgb(0, 0, 0);
+        width: 80px;
+        padding: 20px;
+        text-align: center;
+        z-index: 1;
+
+        &:nth-of-type(1) {
+          top: 0;
+          bottom: 0;
+          left: 0;
+          background: linear-gradient(
+            -90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 1) 100%
+          );
+        }
+        &:nth-of-type(2) {
+          top: 0;
+          bottom: 0;
+          right: 0;
+          background: linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(0, 0, 0, 1) 100%
+          );
+        }
+      }
+    }
+  }
+
+  // Remove the arrow for Mobile
+  @media only screen and (max-width: 600px) {
+    a.arrow__btn {
+      display: none;
+    }
+  }
+</style>
+{% endblock %} {% block content %}
+
+<main class="bg-primary_black min-h-screen w-full">
+  <section
+    class="h-screen relative bg-no-repeat pb-8 pl-6 flex items-end bg-cover bg-center"
+    style="background-image: url('{{ aula_destaque.thumb.url }}');"
+  >
+    <div>
+      <h2 class="text-6xl font-semibold text-white my-4">
+        {{ aula_destaque.titulo }}
+      </h2>
+      <p class="w-11/12 md:w-5/12 font-medium text-white my-4">
+        {{ aula_destaque.descricao }}
+      </p>
+      <div class="flex my-4">
+  {% if aula_destaque %}    
+          <a href="{% url 'aula:detalhesaula' aula_destaque.pk %}">
+     <!-- botão -->
+  </a>
+  {% else %}
+    <!-- exibe uma mensagem de erro ou um botão de fallback -->
+  {% endif %}
+    <button
+    class="flex items-center bg-white py-2 px-5 rounded-md"
+    style="color: black"
+  >
+    <ion-icon name="play" class="text-2xl"></ion-icon>
+    <span class="ml-3 font-medium"> Play </span>
+  </button>
+        </a>
+       
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-primary_black flex justify-center py-10">
+    <div class="p-8 w-10/12 relative">
+      <h2 class="text-gray-200 text-2xl font-medium">Categorias</h2>
+      <div class="flex flex-wrap items-center min-w-full movie_lis">
+        {% for aula in lista_aulas_recentes %}
+        <div
+          class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointers w-96"
+        >
+          <a href="{% url 'aula:detalhesaula' aula.pk %}">
+            <img src="{{ aula.thumb.url }}" class="d-block w-full" alt="" />
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

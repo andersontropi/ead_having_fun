@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block titulo %}
+HomeAulas Havingfun
+{% endblock %}
+
+
+{% block content %}
+
+<style>
+.custom-modal {
+  max-width: 80%; /* Largura máxima */
+  height: 100%; /* Altura */
+  overflow-y: auto; /* Permite rolagem se o conteúdo exceder a altura */
+}
+</style>
+
+<main class='bg-primary_black min-h-screen w-full'>
+    <section class="h-screen relative bg-no-repeat pb-8 pl-6 flex  items-end bg-cover bg-center" style="background-image: url('{{ object.thumb.url }}');">
+        <div>
+            <h2 class="text-6xl font-semibold text-white my-4">
+                {{ object.titulo }}
+            </h2>
+            <p class=" w-11/12 md:w-5/12 font-medium text-white my-4">
+                {{ object.descricao|slice:":100" }}...
+            </p>
+            
+                <!--<a href="{{ object.episodios.first.video }}">-->
+                    <button class="flex items-center bg-white py-2 px-5 rounded-md" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style='color:black;'>
+                        <ion-icon name="play" class="text-2xl"></ion-icon>
+                        <span class="ml-3 font-medium">
+                            Play
+                        </span>
+                    </button>
+                
+            
+        </div>
+
+        <div class="modal fade" id="staticBackdrop" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen-xxl-downs">
+                <div class="modal-content ">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-dark" id="exampleModalLabel">{{ object.titulo }}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="https://www.youtube.com/embed/DglM5TELu0k?" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                 
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class='bg-primary_black flex justify-center py-10'>
+        <div class="p-8 w-10/12 relative" >
+            <h2 class="text-gray-200 text-3xl font-medium">
+                Descrição
+            </h2>
+            <div class="flex justify-left  items-center min-w-full  movie_lis">
+                <p class="text-gray-100 text-lg">
+                    {{ object.descricao }}
+                    <br>
+                    Visualizações: {{ object.visualizacoes }}
+                </p>
+            </div>
+
+            
+
+        </div>
+    </section>
+
+    <section class='bg-primary_black flex justify-center py-10'>
+        <div class="p-8 w-10/12 relative" >
+            <h2 class="text-gray-200 text-2xl font-medium">
+                Relacionados
+            </h2>
+            <div class="flex flex-wrap items-center min-w-full movie_lis">
+                {% for aula in aulas_relacionados %}
+                <div class="m-4 bg-blue-500 overflow-hidden flex-shrink-0 rounded-md cursor-pointer h-64 w-96">
+                    <a href="{% url 'aula:detalhesaula' aula.pk %}">
+                            <img src="{{ aula.thumb.url }}" class="object-cover w-full h-full " alt="">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+{% endblock %}
